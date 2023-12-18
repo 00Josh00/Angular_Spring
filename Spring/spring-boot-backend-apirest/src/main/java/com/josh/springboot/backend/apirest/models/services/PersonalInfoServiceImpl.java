@@ -21,5 +21,23 @@ public class PersonalInfoServiceImpl implements IPersonalInfoService{
 		// TODO Auto-generated method stub
 		return (List<PersonalInfo>) PersonalInfoDao.findAll();
 	}
+	@Override
+	@Transactional(readOnly = true)
+	public PersonalInfo findById(Long id) {
+		// TODO Auto-generated method stub
+		return PersonalInfoDao.findById(id).orElseGet(null);
+	}
+	@Override
+	@Transactional
+	public PersonalInfo save(PersonalInfo personalinfo) {
+		// TODO Auto-generated method stub
+		return PersonalInfoDao.save(personalinfo);
+	}
+	@Override
+	@Transactional
+	public void delete(Long id) {
+		// TODO Auto-generated method stub
+		PersonalInfoDao.deleteById(id);
+	}
 
 }
