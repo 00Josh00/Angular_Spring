@@ -20,6 +20,7 @@ const routes: Routes = [
   {path: '', redirectTo: '/personal-info', pathMatch: 'full'},
   {path: 'directivas', component: DirectivaComponent},
   {path: 'personal-info', component: PersonalInfoComponent},
+  {path: 'personal-info/form', component: FormComponent}
 ];
 
 @NgModule({
