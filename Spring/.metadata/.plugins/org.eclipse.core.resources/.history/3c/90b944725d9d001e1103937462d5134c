@@ -1,0 +1,5 @@
+package com.josh.springboot.backend.apirest.models.dao;
+
+public interface IPersonalInfoDao {
+
+}

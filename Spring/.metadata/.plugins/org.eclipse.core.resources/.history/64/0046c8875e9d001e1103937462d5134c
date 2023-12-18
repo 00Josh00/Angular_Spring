@@ -1,0 +1,5 @@
+package com.josh.springboot.backend.apirest.models.services;
+
+public class PersonalInfoServiceImpl {
+
+}

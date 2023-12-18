@@ -1,0 +1,30 @@
+<div class="card text-bg-light mb-3">
+    <div class="card-header">Personal Info</div>
+    <div class="card-body">
+      <h5 class="card-title">Listado de personas</h5>
+
+      <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Apellidos</th>
+                <th>Email</th>
+                <th>Telefono</th>
+                <th>Direccion</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let personalInfo of personalInfo">
+                <td>{{ personalInfo.id}}</td>
+                <td>{{ personalInfo.nombre}}</td>
+                <td>{{ personalInfo.apellidos}}</td>
+                <td>{{ personalInfo.email}}</td>
+                <td>{{ personalInfo.telefono}}</td>
+                <td>{{ personalInfo.direccion}}</td>
+            </tr>
+        </tbody>
+      </table>
+      
+    </div>
+  </div>

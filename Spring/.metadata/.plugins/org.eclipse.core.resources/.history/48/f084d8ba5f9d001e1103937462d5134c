@@ -1,0 +1,5 @@
+package com.josh.springboot.backend.apirest.controllers;
+
+public class PersonalInfoRestController {
+
+}
