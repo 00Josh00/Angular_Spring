@@ -7,22 +7,15 @@ export class PersonalInfo {
     direccion: string;
     createAt: string;
 
-    constructor(
-        id: number,
-        nombre: string,
-        apellidos: string,
-        email: string,
-        telefono: string,
-        direccion: string,
-        createAt: string,
-    ) {
-        this.id = id;
-        this.nombre = nombre;
-        this.apellidos = apellidos;
-        this.email = email;
-        this.telefono = telefono;
-        this.direccion = direccion;
-        this.createAt = createAt;
+    constructor() {
+        this.id = 0;
+        this.nombre = '';
+        this.apellidos = '';
+        this.email = '';
+        this.telefono = '';
+        this.direccion = '';
+        this.createAt = '';
     }
+    
 }
 

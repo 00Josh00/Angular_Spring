@@ -9,7 +9,7 @@ import { PersonalInfoService } from './personal-info.service';
 export class PersonalInfoComponent implements OnInit {
   personalInfo: PersonalInfo[] = [];
 
-  constructor(private personalInfoService: PersonalInfoService){
+  constructor(public personalInfoService: PersonalInfoService){
 
   }
 

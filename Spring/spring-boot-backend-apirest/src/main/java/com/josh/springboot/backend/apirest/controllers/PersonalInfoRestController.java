@@ -47,6 +47,7 @@ public class PersonalInfoRestController {
 	
 	
 	@PutMapping("/personalinfo/{id}")
+	@ResponseStatus(HttpStatus.CREATED)
 	public PersonalInfo update(@RequestBody PersonalInfo personalinfo, @PathVariable Long id) {
 		PersonalInfo personalinfoActual = personalInfoService.findById(id);
 		
@@ -61,6 +62,7 @@ public class PersonalInfoRestController {
 	}
 	
 	@DeleteMapping("/personalinfo/{id}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Long id) {
 		personalInfoService.delete(id);
 	}

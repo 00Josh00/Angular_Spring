@@ -11,8 +11,9 @@ import { EstudiosComponent } from './estudios/estudios.component';
 import { HabilidadesComponent } from './habilidades/habilidades.component';
 import { PersonalInfoService } from './personal-info/personal-info.service';
 import { RouterModule, Routes } from '@angular/router';
-
 import { HttpClientModule } from '@angular/common/http';
+import { FormComponent } from './personal-info/form.component';
+import { FormsModule } from '@angular/forms';
 
 
 const routes: Routes = [
@@ -30,11 +31,13 @@ const routes: Routes = [
     PersonalInfoComponent,
     ExperienciaLaboralComponent,
     EstudiosComponent,
-    HabilidadesComponent
+    HabilidadesComponent,
+    FormComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
+    FormsModule,
     RouterModule.forRoot(routes),
     AppRoutingModule
   ],
