@@ -23,6 +23,7 @@ public class Persona implements Serializable {
 	private String nombre;
 	private String apellidos;
 	private String email;
+	private String telefono;
 	private String direccion;
 
 	@Column(name = "create_at")
@@ -75,6 +76,14 @@ public class Persona implements Serializable {
 
 	public void setCreateAt(Date createAt) {
 		this.createAt = createAt;
+	}
+
+	public String getTelefono() {
+		return telefono;
+	}
+
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
 	}
 
 	private static final long serialVersionUID = 1L;
