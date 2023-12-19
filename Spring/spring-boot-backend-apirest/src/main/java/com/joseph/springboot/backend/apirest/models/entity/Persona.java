@@ -12,21 +12,20 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
-
 @Entity
-@Table(name="persona")
-public class Persona implements Serializable{
-	
+@Table(name = "persona")
+public class Persona implements Serializable {
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	private String nombre;
 	private String apellidos;
 	private String email;
 	private String direccion;
-	
-	@Column(name="create_at")
+
+	@Column(name = "create_at")
 	@Temporal(TemporalType.DATE)
 	private Date createAt;
 
@@ -77,5 +76,6 @@ public class Persona implements Serializable{
 	public void setCreateAt(Date createAt) {
 		this.createAt = createAt;
 	}
+
 	private static final long serialVersionUID = 1L;
 }
