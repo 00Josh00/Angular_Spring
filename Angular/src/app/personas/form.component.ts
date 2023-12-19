@@ -18,7 +18,9 @@ export class FormComponent implements OnInit {
     private activatedRoute: ActivatedRoute
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.cargarCliente();
+  }
 
   cargarCliente(): void {
     this.activatedRoute.params.subscribe((param) => {
