@@ -18,6 +18,7 @@ const routes: Routes = [
   { path: 'directivas', component: DirectivaComponent },
   { path: 'personas', component: PersonasComponent },
   { path: 'personas/form', component: FormComponent },
+  { path: 'personas/form/:id', component: FormComponent },
 ];
 
 @NgModule({

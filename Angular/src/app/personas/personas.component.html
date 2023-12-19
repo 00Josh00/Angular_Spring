@@ -22,6 +22,7 @@
           <th>email</th>
           <th>telefono</th>
           <th>direccion</th>
+          <th>editar</th>
         </tr>
       </thead>
       <tbody>
@@ -32,6 +33,16 @@
           <td>{{ persona.email }}</td>
           <td>{{ persona.telefono }}</td>
           <td>{{ persona.direccion }}</td>
+          <td>
+            <button
+              type="button"
+              name="button"
+              [routerLink]="['/personas/form', persona.id]"
+              class="btn btn-primary"
+            >
+              Editar
+            </button>
+          </td>
         </tr>
       </tbody>
     </table>

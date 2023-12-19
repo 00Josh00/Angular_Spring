@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Persona } from './persona';
 import { PersonaService } from './persona.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
 
 @Component({
@@ -12,18 +12,33 @@ export class FormComponent implements OnInit {
   public persona: Persona = new Persona();
   public titulo: string = 'Agregar Personas';
 
-  constructor(private personaService: PersonaService, private router: Router) {}
+  constructor(
+    private personaService: PersonaService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {}
 
+  cargarCliente(): void {
+    this.activatedRoute.params.subscribe((param) => {
+      let id = param['id'];
+      if (id) {
+        this.personaService
+          .getPersona(id)
+          .subscribe((persona) => (this.persona = persona));
+      }
+    });
+  }
+
   public create(): void {
     this.personaService.create(this.persona).subscribe((persona) => {
-      this.router.navigate(['/personas']); // Corregido el paréntesis de cierre
+      this.router.navigate(['/personas']);
       swal.fire(
         'Persona Guardada',
         `Persona ${this.persona.nombre} creada con éxito`,
         'success'
-      ); // Agregados los puntos y coma
+      );
     });
   }
 }
