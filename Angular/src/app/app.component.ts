@@ -3,10 +3,9 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
 })
 export class AppComponent {
-  title = 'Curriculum-app';
-  front: string = 'Angular';
-  back: string = 'Srping';
+  title = 'curriculum-app';
+  persona = 'Joseph Chaparro';
 }

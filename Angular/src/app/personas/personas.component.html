@@ -1,0 +1,29 @@
+<div class="card border-primary mb-3">
+  <div class="card-header">Personas</div>
+  <div class="card-body text-secondary">
+    <h5 class="card-title">Listado</h5>
+
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>id</th>
+          <th>nombre</th>
+          <th>apellidos</th>
+          <th>email</th>
+          <th>telefono</th>
+          <th>direccion</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let persona of personas">
+          <td>{{ persona.id }}</td>
+          <td>{{ persona.nombre }}</td>
+          <td>{{ persona.apellidos }}</td>
+          <td>{{ persona.email }}</td>
+          <td>{{ persona.telefono }}</td>
+          <td>{{ persona.direccion }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
