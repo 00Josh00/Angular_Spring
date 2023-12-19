@@ -21,4 +21,22 @@ public class PersonaServiceImpl implements IPersonaService {
 		return (List<Persona>) personaDao.findAll();
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public Persona findById(Long id) {
+		return personaDao.findById(id).orElse(null);
+	}
+
+	@Override
+	@Transactional
+	public Persona save(Persona persona) {
+		return personaDao.save(persona);
+	}
+
+	@Override
+	@Transactional
+	public void delete(Long id) {
+		personaDao.deleteById(id);
+	}
+
 }
