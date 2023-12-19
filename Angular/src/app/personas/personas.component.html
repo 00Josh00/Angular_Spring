@@ -3,6 +3,16 @@
   <div class="card-body text-secondary">
     <h5 class="card-title">Listado</h5>
 
+    <div class="my-2 text-left">
+      <button
+        class="btn btn-rounded btn-primary"
+        type="button"
+        [routerLink]="['/personas/form']"
+      >
+        Agregar
+      </button>
+    </div>
+
     <table class="table table-bordered table-striped">
       <thead>
         <tr>
@@ -22,6 +32,7 @@
           <td>{{ persona.email }}</td>
           <td>{{ persona.telefono }}</td>
           <td>{{ persona.direccion }}</td>
+          <td>{{ persona.createAt }}</td>
         </tr>
       </tbody>
     </table>

@@ -7,7 +7,7 @@ import { Persona } from './persona';
 })
 export class FormComponent implements OnInit {
   public persona: Persona = new Persona();
-  public titulo: string = 'Crear Cleinte';
+  public titulo: string = 'Agregar Personas';
 
   ngOnInit(): void {}
 
