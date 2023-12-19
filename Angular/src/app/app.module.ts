@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
+import { RouterModule, Routes } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './header/header.component';
-import { FooterComponent } from './footer/footer.component';
 import { DirectivaComponent } from './directivas/directiva.component';
-import { PersonasComponent } from './personas/personas.component';
+import { FooterComponent } from './footer/footer.component';
+import { HeaderComponent } from './header/header.component';
 import { PersonaService } from './personas/persona.service';
-import { RouterModule, Routes } from '@angular/router';
+import { PersonasComponent } from './personas/personas.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/personas', pathMatch: 'full' },
