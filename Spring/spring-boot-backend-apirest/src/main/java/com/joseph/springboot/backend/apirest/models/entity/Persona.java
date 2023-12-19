@@ -1,7 +1,7 @@
 package com.joseph.springboot.backend.apirest.models.entity;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,24 +17,25 @@ import jakarta.persistence.TemporalType;
 public class Persona implements Serializable {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private long id;
+	
+	
 	private String nombre;
 	private String apellidos;
 	private String email;
 	private String telefono;
 	private String direccion;
-
-	@Column(name = "create_at")
+	
+	@Column(name="create_at")
 	@Temporal(TemporalType.DATE)
 	private Date createAt;
 
-	public Long getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -62,6 +63,14 @@ public class Persona implements Serializable {
 		this.email = email;
 	}
 
+	public String getTelefono() {
+		return telefono;
+	}
+
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
+	}
+
 	public String getDireccion() {
 		return direccion;
 	}
@@ -78,13 +87,6 @@ public class Persona implements Serializable {
 		this.createAt = createAt;
 	}
 
-	public String getTelefono() {
-		return telefono;
-	}
-
-	public void setTelefono(String telefono) {
-		this.telefono = telefono;
-	}
-
+	
 	private static final long serialVersionUID = 1L;
 }
