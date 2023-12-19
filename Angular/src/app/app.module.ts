@@ -10,6 +10,8 @@ import { HeaderComponent } from './header/header.component';
 import { PersonaService } from './personas/persona.service';
 import { PersonasComponent } from './personas/personas.component';
 import { HttpClientModule } from '@angular/common/http';
+import { FormComponent } from './personas/form.component';
+import { FormsModule } from '@angular/forms';
 
 const routes: Routes = [
   { path: '', redirectTo: '/personas', pathMatch: 'full' },
@@ -24,10 +26,12 @@ const routes: Routes = [
     FooterComponent,
     DirectivaComponent,
     PersonasComponent,
+    FormComponent,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
+    FormsModule,
     AppRoutingModule,
     RouterModule.forRoot(routes),
   ],
