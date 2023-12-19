@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Persona } from './persona';
 import { PersonaService } from './persona.service';
 import { Router } from '@angular/router';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-form',
@@ -16,8 +17,13 @@ export class FormComponent implements OnInit {
   ngOnInit(): void {}
 
   public create(): void {
-    this.personaService
-      .create(this.persona)
-      .subscribe((reponse) => this.router.navigate(['/personas']));
+    this.personaService.create(this.persona).subscribe((persona) => {
+      this.router.navigate(['/personas']); // Corregido el paréntesis de cierre
+      swal.fire(
+        'Persona Guardada',
+        `Persona ${this.persona.nombre} creada con éxito`,
+        'success'
+      ); // Agregados los puntos y coma
+    });
   }
 }
