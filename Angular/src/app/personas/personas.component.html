@@ -23,6 +23,7 @@
           <th>telefono</th>
           <th>direccion</th>
           <th>editar</th>
+          <th>eliminar</th>
         </tr>
       </thead>
       <tbody>
@@ -36,11 +37,21 @@
           <td>
             <button
               type="button"
-              name="button"
+              name="editar"
               [routerLink]="['/personas/form', persona.id]"
-              class="btn btn-primary"
+              class="btn btn-primary btn-sm"
             >
               Editar
+            </button>
+          </td>
+          <td>
+            <button
+              type="button"
+              name="elininar"
+              (click)="delete(persona)"
+              class="btn btn-danger btn-sm"
+            >
+              Eliminar
             </button>
           </td>
         </tr>

@@ -26,4 +26,20 @@ export class PersonaService {
   getPersona(id): Observable<Persona> {
     return this.http.get<Persona>(`${this.urlEndPoint}/${id}`);
   }
+
+  update(persona: Persona): Observable<Persona> {
+    return this.http.put<Persona>(
+      `${this.urlEndPoint}/${persona.id}`,
+      persona,
+      {
+        headers: this.httpHeaders,
+      }
+    );
+  }
+
+  delete(id: number): Observable<Persona> {
+    return this.http.delete<Persona>(`${this.urlEndPoint}/${id}`, {
+      headers: this.httpHeaders,
+    });
+  }
 }

@@ -43,4 +43,15 @@ export class FormComponent implements OnInit {
       );
     });
   }
+
+  update(): void {
+    this.personaService.update(this.persona).subscribe((persona) => {
+      this.router.navigate(['/personas']);
+      swal.fire(
+        'Persona Actualizada',
+        `Persona ${persona.nombre} actualizada con éxito`,
+        'success'
+      );
+    });
+  }
 }
