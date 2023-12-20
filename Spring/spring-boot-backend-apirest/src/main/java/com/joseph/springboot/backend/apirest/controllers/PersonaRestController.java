@@ -60,10 +60,23 @@ public class PersonaRestController {
 
 
 	@PostMapping("/personas")
-	@ResponseStatus(HttpStatus.CREATED)
-	public Persona create(@RequestBody Persona persona) {
-		return personaService.save(persona);
+	public ResponseEntity<?> create(@RequestBody Persona persona) {
+	    Persona personaNew = null;
+	    Map<String, Object> response = new HashMap<>();
+
+	    try {
+	        personaNew = personaService.save(persona);
+	    } catch (DataAccessException e) {
+	        response.put("mensaje", "Error al realizar el insert en la base de datos");
+	        response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+	        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+	    }
+
+	    response.put("mensaje", "La persona ha sido creado con éxito!");
+	    response.put("persona", personaNew);
+	    return new ResponseEntity<>(response, HttpStatus.CREATED);
 	}
+
 	
 	@PutMapping("/personas/{id}")
 	@ResponseStatus(HttpStatus.CREATED)
