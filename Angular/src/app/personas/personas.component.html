@@ -13,7 +13,13 @@
       </button>
     </div>
 
-    <table class="table table-bordered table-striped">
+    <div *ngIf="personas?.length == 0" class="alert alert-info">
+      No hay registros en la base de datos!
+    </div>
+    <table
+      class="table table-bordered table-striped"
+      *ngIf="personas?.length > 0"
+    >
       <thead>
         <tr>
           <th>id</th>
