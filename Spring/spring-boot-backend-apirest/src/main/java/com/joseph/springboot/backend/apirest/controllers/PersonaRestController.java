@@ -170,13 +170,15 @@ public class PersonaRestController {
 		try {
 			Persona persona = personaService.findById(id);
 			String nombreFotoAnterior = persona.getFoto();
+			
 			if(nombreFotoAnterior !=null && nombreFotoAnterior.length()>0) {
-				Path rutaFotoAnteior = Paths.get("uploadas").resolve(nombreFotoAnterior).toAbsolutePath();
+				Path rutaFotoAnteior = Paths.get("uploads").resolve(nombreFotoAnterior).toAbsolutePath();
 				File archivoFotoAnterior = rutaFotoAnteior.toFile();
 				if(archivoFotoAnterior.exists() && archivoFotoAnterior.canRead()) {
 					archivoFotoAnterior.delete();
 				}
 			}
+			
 			personaService.delete(id);
 		} catch (DataAccessException e) {
 			response.put("mensaje", "Error al eliminar la persona en la base de datos");
@@ -209,7 +211,7 @@ public class PersonaRestController {
 			
 			String nombreFotoAnterior = persona.getFoto();
 			if(nombreFotoAnterior !=null && nombreFotoAnterior.length()>0) {
-				Path rutaFotoAnteior = Paths.get("uploadas").resolve(nombreFotoAnterior).toAbsolutePath();
+				Path rutaFotoAnteior = Paths.get("uploads").resolve(nombreFotoAnterior).toAbsolutePath();
 				File archivoFotoAnterior = rutaFotoAnteior.toFile();
 				if(archivoFotoAnterior.exists() && archivoFotoAnterior.canRead()) {
 					archivoFotoAnterior.delete();
