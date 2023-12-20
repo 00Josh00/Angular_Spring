@@ -7,6 +7,9 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -26,7 +29,7 @@ import com.joseph.springboot.backend.apirest.models.entity.Persona;
 import com.joseph.springboot.backend.apirest.models.services.IPersonaService;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotEmpty;
+//import jakarta.validation.constraints.NotEmpty;
 
 @CrossOrigin(origins = { "http://localhost:4200" })
 @RestController
@@ -41,6 +44,14 @@ public class PersonaRestController {
 		return personaService.findAll();
 
 	}
+	
+	@GetMapping("/personas/page/{page}")
+	public Page<Persona> index(@PathVariable Integer page) {
+		Pageable pageable = PageRequest.of(page, 5);
+		return personaService.findAll(pageable);
+
+	}
+	
 
 	@GetMapping("/personas/{id}")
 	public ResponseEntity<?> show(@PathVariable Long id) {
