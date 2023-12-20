@@ -115,8 +115,17 @@ public class PersonaRestController {
 
 	@DeleteMapping("/personas/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void delete(@PathVariable Long id) {
-		personaService.delete(id);
+	public ResponseEntity<?> delete(@PathVariable Long id) {
+		Map<String, Object> response = new HashMap<>();
+		try {
+			personaService.delete(id);
+		} catch (DataAccessException e) {
+			response.put("mensaje", "Error al eliminar la persona en la base de datos");
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		response.put("mensaje", "Persona eliminada con exito!");
+		return new ResponseEntity<Map<String,Object>>(response,HttpStatus.OK);
 	}
 
 }
