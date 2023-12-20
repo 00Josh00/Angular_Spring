@@ -1,9 +1,13 @@
 package com.joseph.springboot.backend.apirest.controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,10 +37,27 @@ public class PersonaRestController {
 	}
 
 	@GetMapping("/personas/{id}")
-	//@ResponseStatus(HttpStatus.OK)
-	public Persona show(@PathVariable Long id) {
-		return personaService.findById(id);
+	public ResponseEntity<?> show(@PathVariable Long id) {
+	    
+	    Map<String, Object> response = new HashMap<>();
+	    Persona persona = null;
+	    
+	    try {
+	        persona = personaService.findById(id);
+	    } catch (DataAccessException e) {
+	        response.put("mensaje", "Error al realizar la consulta en la base de datos");
+	        response.put("error", e.getMessage() != null ? e.getMessage() : "Excepción sin mensaje");
+	        return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+	    }
+	    
+	    if (persona == null) {
+	        response.put("mensaje", "El cliente ID:" + id.toString() + " no existe en la base de datos!");
+	        return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+	    }
+	    
+	    return new ResponseEntity<Persona>(persona, HttpStatus.OK);
 	}
+
 
 	@PostMapping("/personas")
 	@ResponseStatus(HttpStatus.CREATED)
