@@ -12,31 +12,38 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "persona")
 public class Persona implements Serializable {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	
-	@Column(nullable=false)
+
+	@NotEmpty
+	@Column(nullable = false)
 	private String nombre;
-	@Column(nullable=false)
+
+	@NotEmpty
+	@Column(nullable = false)
 	private String apellidos;
-	@Column(nullable=false, unique=true)
+
+	@Column(nullable = false, unique = true)
+	@Email
 	private String email;
 	private String telefono;
 	private String direccion;
-	
-	@Column(name="create_at")
+
+	@Column(name = "create_at")
 	@Temporal(TemporalType.DATE)
 	private Date createAt;
-	
+
 	@PrePersist
 	protected void onCreate() {
-	    createAt = new Date();
+		createAt = new Date();
 	}
 
 	public long getId() {
@@ -95,6 +102,5 @@ public class Persona implements Serializable {
 		this.createAt = createAt;
 	}
 
-	
 	private static final long serialVersionUID = 1L;
 }

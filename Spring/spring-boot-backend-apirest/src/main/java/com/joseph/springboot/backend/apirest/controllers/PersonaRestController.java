@@ -1,5 +1,6 @@
 package com.joseph.springboot.backend.apirest.controllers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +24,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.joseph.springboot.backend.apirest.models.entity.Persona;
 import com.joseph.springboot.backend.apirest.models.services.IPersonaService;
+
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 
 @CrossOrigin(origins = { "http://localhost:4200" })
 @RestController
@@ -59,9 +65,21 @@ public class PersonaRestController {
 	}
 
 	@PostMapping("/personas")
-	public ResponseEntity<?> create(@RequestBody Persona persona) {
+	public ResponseEntity<?> create(@Valid @RequestBody Persona persona, BindingResult result) {
 		Persona personaNew = null;
 		Map<String, Object> response = new HashMap<>();
+
+		if (result.hasErrors()) {
+
+			List<String> errors = new ArrayList<>();
+
+			for (FieldError err : result.getFieldErrors()) {
+				errors.add("El campo '" + err.getField() + "' " + err.getDefaultMessage());
+			}
+
+			response.put("errors", errors);
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+		}
 
 		try {
 			personaNew = personaService.save(persona);
@@ -77,12 +95,25 @@ public class PersonaRestController {
 	}
 
 	@PutMapping("/personas/{id}")
-	public ResponseEntity<?> update(@RequestBody Persona persona, @PathVariable Long id) {
+	public ResponseEntity<?> update(@Valid @RequestBody Persona persona, BindingResult result, @PathVariable Long id) {
 
 		Persona personaActual = personaService.findById(id);
 		Persona personaUpdated = null;
 
 		Map<String, Object> response = new HashMap<>();
+
+		if (result.hasErrors()) {
+
+			List<String> errors = new ArrayList<>();
+
+			for (FieldError err : result.getFieldErrors()) {
+				errors.add("El campo '" + err.getField() + "' " + err.getDefaultMessage());
+			}
+
+			response.put("errors", errors);
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+		}
+
 		if (personaActual == null) {
 			response.put("mensaje",
 					"Error, no se pudo editar, el cliente ID: " + id.toString() + " no existe en la base de datos!");
@@ -125,7 +156,7 @@ public class PersonaRestController {
 			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		response.put("mensaje", "Persona eliminada con exito!");
-		return new ResponseEntity<Map<String,Object>>(response,HttpStatus.OK);
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 
 }
