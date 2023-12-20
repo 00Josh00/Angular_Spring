@@ -38,61 +38,81 @@ public class PersonaRestController {
 
 	@GetMapping("/personas/{id}")
 	public ResponseEntity<?> show(@PathVariable Long id) {
-	    
-	    Map<String, Object> response = new HashMap<>();
-	    Persona persona = null;
-	    
-	    try {
-	        persona = personaService.findById(id);
-	    } catch (DataAccessException e) {
-	        response.put("mensaje", "Error al realizar la consulta en la base de datos");
-	        response.put("error", e.getMessage() != null ? e.getMessage() : "Excepción sin mensaje");
-	        return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-	    }
-	    
-	    if (persona == null) {
-	        response.put("mensaje", "El cliente ID:" + id.toString() + " no existe en la base de datos!");
-	        return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
-	    }
-	    
-	    return new ResponseEntity<Persona>(persona, HttpStatus.OK);
-	}
 
+		Map<String, Object> response = new HashMap<>();
+		Persona persona = null;
+
+		try {
+			persona = personaService.findById(id);
+		} catch (DataAccessException e) {
+			response.put("mensaje", "Error al realizar la consulta en la base de datos");
+			response.put("error", e.getMessage() != null ? e.getMessage() : "Excepción sin mensaje");
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		if (persona == null) {
+			response.put("mensaje", "El cliente ID:" + id.toString() + " no existe en la base de datos!");
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+		}
+
+		return new ResponseEntity<Persona>(persona, HttpStatus.OK);
+	}
 
 	@PostMapping("/personas")
 	public ResponseEntity<?> create(@RequestBody Persona persona) {
-	    Persona personaNew = null;
-	    Map<String, Object> response = new HashMap<>();
+		Persona personaNew = null;
+		Map<String, Object> response = new HashMap<>();
 
-	    try {
-	        personaNew = personaService.save(persona);
-	    } catch (DataAccessException e) {
-	        response.put("mensaje", "Error al realizar el insert en la base de datos");
-	        response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
-	        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-	    }
+		try {
+			personaNew = personaService.save(persona);
+		} catch (DataAccessException e) {
+			response.put("mensaje", "Error al realizar el insert en la base de datos");
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 
-	    response.put("mensaje", "La persona ha sido creado con éxito!");
-	    response.put("persona", personaNew);
-	    return new ResponseEntity<>(response, HttpStatus.CREATED);
+		response.put("mensaje", "La persona ha sido creado con éxito!");
+		response.put("persona", personaNew);
+		return new ResponseEntity<>(response, HttpStatus.CREATED);
 	}
 
-	
 	@PutMapping("/personas/{id}")
-	@ResponseStatus(HttpStatus.CREATED)
-	public Persona update(@RequestBody Persona persona, @PathVariable Long id) {
+	public ResponseEntity<?> update(@RequestBody Persona persona, @PathVariable Long id) {
+
 		Persona personaActual = personaService.findById(id);
-		
-		personaActual.setNombre(persona.getNombre());
-		personaActual.setApellidos(persona.getApellidos());
-		personaActual.setDireccion(persona.getDireccion());
-		personaActual.setEmail(persona.getEmail());
-		personaActual.setTelefono(persona.getTelefono());
-		personaActual.setDireccion(persona.getDireccion());
-		
-		return personaService.save(personaActual);
+		Persona personaUpdated = null;
+
+		Map<String, Object> response = new HashMap<>();
+		if (personaActual == null) {
+			response.put("mensaje",
+					"Error, no se pudo editar, el cliente ID: " + id.toString() + " no existe en la base de datos!");
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+		}
+
+		try {
+
+			personaActual.setNombre(persona.getNombre());
+			personaActual.setApellidos(persona.getApellidos());
+			personaActual.setDireccion(persona.getDireccion());
+			personaActual.setEmail(persona.getEmail());
+			personaActual.setTelefono(persona.getTelefono());
+			personaActual.setDireccion(persona.getDireccion());
+			personaActual.setCreateAt(persona.getCreateAt());
+
+			personaUpdated = personaService.save(personaActual);
+
+		} catch (DataAccessException e) {
+			response.put("mensaje", "Error al actualizar en la base de datos");
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		response.put("mensaje", "La persona ha sido actualizada con éxito!");
+		response.put("persona", personaUpdated);
+
+		return new ResponseEntity<>(response, HttpStatus.CREATED);
 	}
-	
+
 	@DeleteMapping("/personas/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Long id) {
