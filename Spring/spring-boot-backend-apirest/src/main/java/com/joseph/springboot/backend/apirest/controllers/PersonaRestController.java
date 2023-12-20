@@ -1,5 +1,6 @@
 package com.joseph.springboot.backend.apirest.controllers;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -166,6 +168,15 @@ public class PersonaRestController {
 	public ResponseEntity<?> delete(@PathVariable Long id) {
 		Map<String, Object> response = new HashMap<>();
 		try {
+			Persona persona = personaService.findById(id);
+			String nombreFotoAnterior = persona.getFoto();
+			if(nombreFotoAnterior !=null && nombreFotoAnterior.length()>0) {
+				Path rutaFotoAnteior = Paths.get("uploadas").resolve(nombreFotoAnterior).toAbsolutePath();
+				File archivoFotoAnterior = rutaFotoAnteior.toFile();
+				if(archivoFotoAnterior.exists() && archivoFotoAnterior.canRead()) {
+					archivoFotoAnterior.delete();
+				}
+			}
 			personaService.delete(id);
 		} catch (DataAccessException e) {
 			response.put("mensaje", "Error al eliminar la persona en la base de datos");
@@ -183,7 +194,7 @@ public class PersonaRestController {
 		Persona persona = personaService.findById(id);
 		
 		if(!archivo.isEmpty()) {
-			String nombreArchivo = archivo.getOriginalFilename();
+			String nombreArchivo = UUID.randomUUID().toString()+" "+archivo.getOriginalFilename().replace(" ","");
 			Path rutaArchivo = Paths.get("uploads").resolve(nombreArchivo).toAbsolutePath();
 			
 			try {
@@ -194,6 +205,15 @@ public class PersonaRestController {
 				response.put("error", e.getMessage().concat(": ").concat(e.getCause().getMessage()));
 				return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 				
+			}
+			
+			String nombreFotoAnterior = persona.getFoto();
+			if(nombreFotoAnterior !=null && nombreFotoAnterior.length()>0) {
+				Path rutaFotoAnteior = Paths.get("uploadas").resolve(nombreFotoAnterior).toAbsolutePath();
+				File archivoFotoAnterior = rutaFotoAnteior.toFile();
+				if(archivoFotoAnterior.exists() && archivoFotoAnterior.canRead()) {
+					archivoFotoAnterior.delete();
+				}
 			}
 			
 			persona.setFoto(nombreArchivo);
