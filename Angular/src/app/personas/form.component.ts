@@ -12,6 +12,8 @@ export class FormComponent implements OnInit {
   public persona: Persona = new Persona();
   public titulo: string = 'Agregar Personas';
 
+  errores: string[];
+
   constructor(
     private personaService: PersonaService,
     private router: Router,
@@ -19,10 +21,10 @@ export class FormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.cargarCliente();
+    this.cargarPersona();
   }
 
-  cargarCliente(): void {
+  cargarPersona(): void {
     this.activatedRoute.params.subscribe((param) => {
       let id = param['id'];
       if (id) {
@@ -33,25 +35,39 @@ export class FormComponent implements OnInit {
     });
   }
 
-  public create(): void {
-    this.personaService.create(this.persona).subscribe((persona) => {
-      this.router.navigate(['/personas']);
-      swal.fire(
-        'Persona Guardada',
-        `Persona ${this.persona.nombre} creada con éxito`,
-        'success'
-      );
+  create(): void {
+    this.personaService.create(this.persona).subscribe({
+      next: (persona) => {
+        this.router.navigate(['/personas']);
+        swal.fire(
+          'Nueva Persona',
+          `${persona.nombre} ha sido creado con éxito`,
+          'success'
+        );
+      },
+      error: (err) => {
+        this.errores = err.error.errors as string[];
+        console.error('Código del error desde el backend: ' + err.status);
+        console.error(err.error.errors);
+      },
     });
   }
 
   update(): void {
-    this.personaService.update(this.persona).subscribe((persona) => {
-      this.router.navigate(['/personas']);
-      swal.fire(
-        'Persona Actualizada',
-        `Persona ${persona.nombre} actualizada con éxito`,
-        'success'
-      );
+    this.personaService.update(this.persona).subscribe({
+      next: (json) => {
+        this.router.navigate(['/personas']);
+        swal.fire(
+          'Persona Actualizada',
+          `${json.mensaje}: ${json.persona.nombre}`,
+          'success'
+        );
+      },
+      error: (err) => {
+        this.errores = err.error.errors as string[];
+        console.error('Código del error desde el backend: ' + err.status);
+        console.error(err.error.errors);
+      },
     });
   }
 }
