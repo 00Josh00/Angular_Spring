@@ -25,7 +25,7 @@ export class PersonaService {
       map((response) => {
         let personas = response as Persona[];
         return personas.map((persona) => {
-          persona.nombre = persona.nombre.toUpperCase();
+          // persona.nombre = persona.nombre.toUpperCase(); //HABILITAR UPPERCASE
           return persona;
         });
       }),

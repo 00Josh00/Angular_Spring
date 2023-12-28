@@ -1,7 +1,11 @@
 <div class="container card bg-dark text-white">
+  <ul class="alert alert-danger" *ngIf="errores?.length > 0">
+    <li *ngFor="let err of errores">{{ err }}</li>
+  </ul>
   <div class="card-header">{{ titulo }}</div>
   <div class="card-body">
-    <form>
+    <form #personaForm="ngForm">
+      <!-- Nombre -->
       <div class="form-group row">
         <label for="nombre" class="col-form-label col-sm-2">Nombre</label>
         <div class="col-sm-6 mb-2">
@@ -9,12 +13,23 @@
             type="text"
             class="form-control"
             [(ngModel)]="persona.nombre"
-            id="nombre"
             name="nombre"
-            autocomplete="off"
+            #nombre="ngModel"
           />
+          <!-- required minlength="4" -->
+          <div
+            class="alert alert-danger"
+            *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)"
+          >
+            <div *ngIf="nombre.errors.required">Nombre es requerido</div>
+            <div *ngIf="nombre.errors.minlength">
+              Nombre debe tener al menos 4 caracteres
+            </div>
+          </div>
         </div>
       </div>
+
+      <!-- Apellidos -->
       <div class="form-group row">
         <label for="apellidos" class="col-form-label col-sm-2">Apellidos</label>
         <div class="col-sm-6 mb-2">
@@ -22,27 +37,46 @@
             type="text"
             class="form-control"
             [(ngModel)]="persona.apellidos"
-            id="apellidos"
             name="apellidos"
-            autocomplete="off"
+            #apellidos="ngModel"
           />
+          <!-- required -->
+          <div
+            class="alert alert-danger"
+            *ngIf="apellidos.invalid && (apellidos.dirty || apellidos.touched)"
+          >
+            <div *ngIf="apellido.errors.required">Apellido es requerido</div>
+          </div>
         </div>
       </div>
+
+      <!-- Email -->
       <div class="form-group row">
         <label for="email" class="col-form-label col-sm-2">Email</label>
         <div class="col-sm-6 mb-2">
           <input
-            type="text"
+            type="email"
             class="form-control"
             [(ngModel)]="persona.email"
-            id="email"
             name="email"
-            autocomplete="off"
+            #email="ngModel"
           />
+          <!-- required email -->
+          <div
+            class="alert alert-danger"
+            *ngIf="email.invalid && (email.dirty || email.touched)"
+          >
+            <div *ngIf="email.errors.required">Email es requerido</div>
+            <div *ngIf="email.errors.email">
+              Email debe tener un formato válido
+            </div>
+          </div>
         </div>
       </div>
+
+      <!-- Teléfono -->
       <div class="form-group row">
-        <label for="telefono" class="col-form-label col-sm-2">Telefono</label>
+        <label for="telefono" class="col-form-label col-sm-2">Teléfono</label>
         <div class="col-sm-6 mb-2">
           <input
             type="text"
@@ -50,12 +84,22 @@
             [(ngModel)]="persona.telefono"
             id="telefono"
             name="telefono"
+            required
+            #telefono="ngModel"
             autocomplete="off"
           />
+          <div
+            class="alert alert-danger"
+            *ngIf="telefono.invalid && (telefono.dirty || telefono.touched)"
+          >
+            <div *ngIf="telefono.errors.required">Teléfono es requerido</div>
+          </div>
         </div>
       </div>
+
+      <!-- Dirección -->
       <div class="form-group row">
-        <label for="direccion" class="col-form-label col-sm-2">Direccion</label>
+        <label for="direccion" class="col-form-label col-sm-2">Dirección</label>
         <div class="col-sm-6 mb-2">
           <input
             type="text"
@@ -68,18 +112,26 @@
         </div>
       </div>
 
+      <!-- Botones -->
       <div class="form-group row">
-        <div class="col-sm-6 mb-2">
+        <div class="col-sm-6">
           <button
             class="btn btn-primary"
             role="button"
             (click)="create()"
             *ngIf="!persona.id; else elseBlock"
+            [disabled]="!personaForm.form.valid"
           >
             Crear
           </button>
+
           <ng-template #elseBlock>
-            <button class="btn btn-primary" role="button" (click)="update()">
+            <button
+              class="btn btn-primary"
+              role="button"
+              (click)="update()"
+              [disabled]="!personaForm.form.valid"
+            >
               Editar
             </button>
           </ng-template>
