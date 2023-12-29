@@ -13,25 +13,24 @@ export class PersonaService {
   private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
   constructor(private http: HttpClient, private router: Router) {}
 
-  getPersonas(): Observable<Persona[]> {
-    return this.http.get(this.urlEndPoint).pipe(
-      tap((response) => {
-        let personas = response as Persona[];
+  getPersonas(page: number): Observable<any> {
+    return this.http.get(this.urlEndPoint + '/page/' + page).pipe(
+      tap((response: any) => {
         console.log('PersonaService: tap 1');
-        personas.forEach((persona) => {
+        (response.content as Persona[]).forEach((persona) => {
           console.log(persona.nombre);
         });
       }),
-      map((response) => {
-        let personas = response as Persona[];
-        return personas.map((persona) => {
+      map((response: any) => {
+        (response.content as Persona[]).map((persona) => {
           // persona.nombre = persona.nombre.toUpperCase(); //HABILITAR UPPERCASE
           return persona;
         });
+        return response;
       }),
       tap((response) => {
         console.log('PersonaService: tap 2');
-        response.forEach((persona) => {
+        (response.content as Persona[]).forEach((persona) => {
           console.log(persona.nombre);
         });
       })

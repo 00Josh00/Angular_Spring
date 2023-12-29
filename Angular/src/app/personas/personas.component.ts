@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Persona } from './persona';
 import { PersonaService } from './persona.service';
 import swal from 'sweetalert2';
+import { tap } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-personas',
@@ -9,13 +11,36 @@ import swal from 'sweetalert2';
 })
 export class PersonasComponent implements OnInit {
   personas: Persona[];
+  paginador: any;
 
-  constructor(private personaService: PersonaService) {}
+  constructor(
+    private personaService: PersonaService,
+    private activatedRoute: ActivatedRoute
+  ) {}
 
   ngOnInit() {
-    this.personaService
-      .getPersonas()
-      .subscribe((personas) => (this.personas = personas));
+    this.activatedRoute.paramMap.subscribe((params) => {
+      let page: number = +params.get('page');
+
+      if (!page) {
+        page = 0;
+      }
+
+      this.personaService
+        .getPersonas(page)
+        .pipe(
+          tap((response) => {
+            console.log('PersonasComponent: tap 3');
+            (response.content as Persona[]).forEach((persona) => {
+              console.log(persona.nombre);
+            });
+          })
+        )
+        .subscribe((response) => {
+          this.personas = response.content as Persona[];
+          this.paginador = response;
+        });
+    });
   }
 
   delete(persona: Persona): void {

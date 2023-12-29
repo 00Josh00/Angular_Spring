@@ -11,12 +11,14 @@ import { PersonaService } from './personas/persona.service';
 import { PersonasComponent } from './personas/personas.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormComponent } from './personas/form.component';
+import { PaginatorComponent } from './paginator/paginator.component';
 import { FormsModule } from '@angular/forms';
 
 const routes: Routes = [
   { path: '', redirectTo: '/personas', pathMatch: 'full' },
   { path: 'directivas', component: DirectivaComponent },
   { path: 'personas', component: PersonasComponent },
+  { path: 'personas/page/:page', component: PersonasComponent },
   { path: 'personas/form', component: FormComponent },
   { path: 'personas/form/:id', component: FormComponent },
 ];
@@ -29,6 +31,7 @@ const routes: Routes = [
     DirectivaComponent,
     PersonasComponent,
     FormComponent,
+    PaginatorComponent,
   ],
   imports: [
     BrowserModule,
