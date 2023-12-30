@@ -12,29 +12,20 @@
           </ul>
 
           <div class="input-group mb-3">
-            <div class="custom-file">
-              <input
-                (change)="seleccionarFoto($event)"
-                type="file"
-                class="custom-file-input"
-                id="inputGroupFile04"
-                aria-describedby="inputGroupFileAddon04"
-              />
-              <label class="custom-file-label" for="inputGroupFile04"
-                >Seleccionar foto</label
-              >
-            </div>
-            <div class="input-group-append">
-              <button
-                (click)="subirFoto()"
-                [disabled]="!fotoSeleccionada"
-                class="btn btn-outline-secondary"
-                type="button"
-                id="inputGroupFileAddon04"
-              >
-                Subir
-              </button>
-            </div>
+            <input
+              (change)="seleccionarFoto($event)"
+              type="file"
+              class="form-control"
+              id="inputGroupFile02"
+            />
+            <button
+              (click)="subirFoto()"
+              [disabled]="!fotoSeleccionada"
+              class="input-group-text"
+              for="inputGroupFile02"
+            >
+              Subir
+            </button>
           </div>
 
           <div *ngIf="progreso > 0" class="progress" style="height: 40px">
