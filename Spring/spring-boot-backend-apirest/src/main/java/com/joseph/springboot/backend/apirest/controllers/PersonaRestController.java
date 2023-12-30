@@ -229,9 +229,5 @@ public class PersonaRestController {
 		
 		return new ResponseEntity<>(response, HttpStatus.CREATED);
 	}
-	@GetMapping("/personas/experiencias")
-	public List<ExperienciaLaboral> listarExperiencias() {
-		return personaService.findallExperiencias();
-
-	}
+	
 }
