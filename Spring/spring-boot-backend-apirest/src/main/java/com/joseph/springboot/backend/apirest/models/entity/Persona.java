@@ -43,9 +43,7 @@ public class Persona implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date createAt = new Date();
 
-	
 	private String foto;
-	
 
 	@PrePersist
 	protected void onCreate() {
