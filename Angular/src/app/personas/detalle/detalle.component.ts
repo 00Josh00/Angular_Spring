@@ -11,7 +11,7 @@ import { HttpEventType } from '@angular/common/http';
 })
 export class DetalleComponent implements OnInit {
   persona: Persona;
-  titulo: string = 'Detalle de la Persona';
+  titulo: string = 'Detalle de la persona';
   public fotoSeleccionada: File;
   progreso: number = 0;
 
@@ -46,15 +46,24 @@ export class DetalleComponent implements OnInit {
   }
 
   subirFoto() {
-    this.personaService
-      .subirFoto(this.fotoSeleccionada, this.persona.id)
-      .subscribe((persona) => {
-        this.persona = persona;
-        swal.fire(
-          'La foto se ha subido correctamente!',
-          `La foto se ha subido con exito: ${this.persona.foto}`,
-          'success'
-        );
-      });
+    if (!this.fotoSeleccionada) {
+      swal.fire('Error Upload: ', 'Debe seleccionar una foto', 'error');
+    } else {
+      this.personaService
+        .subirFoto(this.fotoSeleccionada, this.persona.id)
+        .subscribe((event) => {
+          if (event.type === HttpEventType.UploadProgress) {
+            this.progreso = Math.round((event.loaded / event.total) * 100);
+          } else if (event.type === HttpEventType.Response) {
+            let response: any = event.body;
+            this.persona = response.persona as Persona;
+            swal.fire(
+              'La foto se ha subido completamente!',
+              response.mensaje,
+              'success'
+            );
+          }
+        });
+    }
   }
 }
