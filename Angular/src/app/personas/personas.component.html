@@ -34,7 +34,15 @@
       </thead>
       <tbody>
         <tr *ngFor="let persona of personas">
-          <td>{{ persona.id }}</td>
+          <td>
+            <button
+              type="button"
+              [routerLink]="['/personas/ver', persona.id]"
+              class="btn btn-success btn-sm"
+            >
+              {{ persona.id }}
+            </button>
+          </td>
           <td>{{ persona.nombre }}</td>
           <td>{{ persona.apellidos }}</td>
           <td>{{ persona.email }}</td>

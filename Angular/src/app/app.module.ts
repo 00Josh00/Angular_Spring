@@ -13,6 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormComponent } from './personas/form.component';
 import { PaginatorComponent } from './paginator/paginator.component';
 import { FormsModule } from '@angular/forms';
+import { DetalleComponent } from './personas/detalle/detalle.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/personas', pathMatch: 'full' },
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: 'personas/page/:page', component: PersonasComponent },
   { path: 'personas/form', component: FormComponent },
   { path: 'personas/form/:id', component: FormComponent },
+  { path: 'personas/ver/:id', component: DetalleComponent },
 ];
 
 @NgModule({
@@ -32,6 +34,7 @@ const routes: Routes = [
     PersonasComponent,
     FormComponent,
     PaginatorComponent,
+    DetalleComponent,
   ],
   imports: [
     BrowserModule,

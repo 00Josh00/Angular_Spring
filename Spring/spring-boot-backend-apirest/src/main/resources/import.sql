@@ -10,3 +10,5 @@ INSERT INTO persona (nombre, apellidos, email, telefono, direccion, create_at) V
 INSERT INTO persona (nombre, apellidos, email, telefono, direccion, create_at) VALUES('Magma', 'Lee R', 'magma.lee@gmail.com', '965053276','Av.Lirios', '2018-03-04');
 INSERT INTO persona (nombre, apellidos, email, telefono, direccion, create_at) VALUES('Tornado', 'Roe U', 'tornado.roe@gmail.com','965044443','Av.Duraznos', '2018-03-05');
 INSERT INTO persona (nombre, apellidos, email, telefono, direccion, create_at) VALUES('Jade', 'Doe P', 'jane.doe@gmail.com','965077553','Av.Lirios','2018-03-06');
+
+

@@ -6,4 +6,5 @@ export class Persona {
   telefono: string;
   direccion: string;
   createAt: string;
+  foto: string;
 }

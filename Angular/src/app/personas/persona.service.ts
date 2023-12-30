@@ -92,4 +92,18 @@ export class PersonaService {
         })
       );
   }
+
+  subirFoto(archivo: File, id): Observable<Persona> {
+    let formData = new FormData();
+    formData.append('archivo', archivo);
+    formData.append('id', id);
+    return this.http.post(`${this.urlEndPoint}/upload/`, formData).pipe(
+      map((response: any) => response.persona as Persona),
+      catchError((e) => {
+        console.error(e.error.mensaje);
+        swal.fire('Error al eliminar', e.error.mensaje, 'error');
+        return throwError(() => e);
+      })
+    );
+  }
 }

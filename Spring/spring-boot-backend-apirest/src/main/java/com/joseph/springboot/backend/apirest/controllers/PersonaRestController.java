@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.joseph.springboot.backend.apirest.models.entity.ExperienciaLaboral;
 import com.joseph.springboot.backend.apirest.models.entity.Persona;
 import com.joseph.springboot.backend.apirest.models.services.IPersonaService;
 
@@ -227,6 +228,10 @@ public class PersonaRestController {
 		}
 		
 		return new ResponseEntity<>(response, HttpStatus.CREATED);
-		
+	}
+	@GetMapping("/personas/experiencias")
+	public List<ExperienciaLaboral> listarExperiencias() {
+		return personaService.findallExperiencias();
+
 	}
 }
