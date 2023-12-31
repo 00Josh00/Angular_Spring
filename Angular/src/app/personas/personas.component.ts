@@ -44,6 +44,15 @@ export class PersonasComponent implements OnInit {
           this.paginador = response;
         });
     });
+
+    this.modalService.notificarUpload.subscribe((persona) => {
+      this.personas = this.personas.map((personaOriginal) => {
+        if (persona.id == personaOriginal.id) {
+          personaOriginal.foto = persona.foto;
+        }
+        return personaOriginal;
+      });
+    });
   }
 
   delete(persona: Persona): void {
