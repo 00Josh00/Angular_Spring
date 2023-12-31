@@ -22,7 +22,6 @@ const routes: Routes = [
   { path: 'personas/page/:page', component: PersonasComponent },
   { path: 'personas/form', component: FormComponent },
   { path: 'personas/form/:id', component: FormComponent },
-  { path: 'personas/ver/:id', component: DetalleComponent },
 ];
 
 @NgModule({

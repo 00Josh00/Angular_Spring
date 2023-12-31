@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Persona } from './persona';
 import { PersonaService } from './persona.service';
+import { ModalService } from './detalle/modal.service';
 import swal from 'sweetalert2';
 import { tap } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
@@ -12,9 +13,11 @@ import { ActivatedRoute } from '@angular/router';
 export class PersonasComponent implements OnInit {
   personas: Persona[];
   paginador: any;
+  personaSeleccionada: Persona;
 
   constructor(
     private personaService: PersonaService,
+    private modalService: ModalService,
     private activatedRoute: ActivatedRoute
   ) {}
 
@@ -66,5 +69,9 @@ export class PersonasComponent implements OnInit {
           });
         }
       });
+  }
+  abrirModal(persona: Persona) {
+    this.personaSeleccionada = persona;
+    this.modalService.abrirModal();
   }
 }
