@@ -26,7 +26,7 @@
     >
       <thead>
         <tr>
-          <th>id</th>
+          <th>perfil</th>
           <th>nombre</th>
           <th>apellidos</th>
           <th>email</th>
@@ -45,7 +45,7 @@
               src="http://localhost:8080/api/uploads/img/{{ persona.foto }}"
               alt="{{ persona.foto }}"
               class="img-thumbnail rounded"
-              style="width: 64px; cursor: pointer"
+              style="height: 64px; width: 64px; cursor: pointer"
             />
 
             <img
@@ -54,7 +54,7 @@
               src="http://localhost:8080/img/no-foto.png"
               alt="Sin foto"
               class="img-thumbnail rounded"
-              style="width: 64px; cursor: pointer"
+              style="height: 64px; width: 64px; cursor: pointer"
             />
           </td>
           <td>{{ persona.nombre }}</td>

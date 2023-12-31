@@ -1,22 +1,14 @@
 package com.joseph.springboot.backend.apirest.controllers;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -39,9 +31,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.joseph.springboot.backend.apirest.models.entity.ExperienciaLaboral;
 import com.joseph.springboot.backend.apirest.models.entity.Persona;
 import com.joseph.springboot.backend.apirest.models.services.IPersonaService;
+import com.joseph.springboot.backend.apirest.models.services.IUploadFileService;
 
 import jakarta.validation.Valid;
 //import jakarta.validation.constraints.NotEmpty;
@@ -54,7 +46,8 @@ public class PersonaRestController {
 	@Autowired
 	private IPersonaService personaService;
 
-	private final Logger log = LoggerFactory.getLogger(PersonaRestController.class);
+	@Autowired
+	private IUploadFileService uploadService;
 
 	@GetMapping("/personas")
 	public List<Persona> index() {
@@ -178,14 +171,7 @@ public class PersonaRestController {
 		try {
 			Persona persona = personaService.findById(id);
 			String nombreFotoAnterior = persona.getFoto();
-
-			if (nombreFotoAnterior != null && nombreFotoAnterior.length() > 0) {
-				Path rutaFotoAnteior = Paths.get("uploads").resolve(nombreFotoAnterior).toAbsolutePath();
-				File archivoFotoAnterior = rutaFotoAnteior.toFile();
-				if (archivoFotoAnterior.exists() && archivoFotoAnterior.canRead()) {
-					archivoFotoAnterior.delete();
-				}
-			}
+			uploadService.eliminar(nombreFotoAnterior);
 
 			personaService.delete(id);
 		} catch (DataAccessException e) {
@@ -204,28 +190,22 @@ public class PersonaRestController {
 		Persona persona = personaService.findById(id);
 
 		if (!archivo.isEmpty()) {
-			String nombreArchivo = UUID.randomUUID().toString() + " " + archivo.getOriginalFilename().replace(" ", "");
-			Path rutaArchivo = Paths.get("uploads").resolve(nombreArchivo).toAbsolutePath();
-			log.info(rutaArchivo.toString());
+
+			String nombreArchivo = null;
 
 			try {
-				Files.copy(archivo.getInputStream(), rutaArchivo);
+				uploadService.copiar(archivo);
 			} catch (IOException e) {
 
-				response.put("mensaje", "Error al subir la imagen " + nombreArchivo);
+				response.put("mensaje", "Error al subir la imagen ");
 				response.put("error", e.getMessage().concat(": ").concat(e.getCause().getMessage()));
 				return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 
 			}
 
 			String nombreFotoAnterior = persona.getFoto();
-			if (nombreFotoAnterior != null && nombreFotoAnterior.length() > 0) {
-				Path rutaFotoAnteior = Paths.get("uploads").resolve(nombreFotoAnterior).toAbsolutePath();
-				File archivoFotoAnterior = rutaFotoAnteior.toFile();
-				if (archivoFotoAnterior.exists() && archivoFotoAnterior.canRead()) {
-					archivoFotoAnterior.delete();
-				}
-			}
+
+			uploadService.eliminar(nombreFotoAnterior);
 
 			persona.setFoto(nombreArchivo);
 			personaService.save(persona);
@@ -241,29 +221,14 @@ public class PersonaRestController {
 	@GetMapping("/uploads/img/{nombreFoto:.+}")
 	public ResponseEntity<Resource> verFoto(@PathVariable String nombreFoto) {
 
-		Path rutaArchivo = Paths.get("uploads").resolve(nombreFoto).toAbsolutePath();
-		log.info(rutaArchivo.toString());
-
 		Resource recurso = null;
 
 		try {
-			recurso = new UrlResource(rutaArchivo.toUri());
+			recurso = uploadService.cargar(nombreFoto);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
 
-		if (!recurso.exists() && !recurso.isReadable()) {
-			rutaArchivo = Paths.get("src/main/resources/static/img").resolve("no-foto.png").toAbsolutePath();
-			try {
-				recurso = new UrlResource(rutaArchivo.toUri());
-			} catch (MalformedURLException e) {
-				e.printStackTrace();
-			}
-			
-			
-			log.error("Error no se pudo cargar la imagen: " + nombreFoto);
-			
-		}
 		HttpHeaders cabecera = new HttpHeaders();
 		cabecera.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + recurso.getFilename() + "\"");
 
