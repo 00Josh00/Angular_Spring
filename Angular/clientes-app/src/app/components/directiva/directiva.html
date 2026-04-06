@@ -1,0 +1,12 @@
+<button type="button" (click)="setHabilitar()" class="btn btn-primary my-3">{{ habilitar ? 'Ocultar' : 'Mostrar'
+    }}</button>
+<div class="card">
+    <div class="card-header"> Listado de Cursos</div>
+    @if (habilitar) {
+    <ul class="list-group">
+        @for (curso of listaCurso; track curso) {
+        <li class="list-group-item">{{ curso }}</li>
+        }
+    </ul>
+    }
+</div>
